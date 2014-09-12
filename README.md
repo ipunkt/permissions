@@ -32,3 +32,10 @@ to your service provider list
 Have your Usermodel implement CanInterface and use CanTrait  
 Have your Models implement HasPermissionInterface and use HasPermissionTrait
 
+This will allow you to do $user->can('doSomething', $model);
+However, with just this the default for PermissionCheckerInterface from the Laravel IoC is used, which - unless packages
+other then this provide any - allows everyone to do everything.
+
+Either have your model provide a PermissionChecker of your own design by specifing a classpath in checker_instance.
+Or pull in another package like ipunkt/roles which provides a more sophisticated default.
+
