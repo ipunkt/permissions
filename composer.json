@@ -1,0 +1,22 @@
+{
+    "name": "ipunkt/permissions",
+	 "description": "1 line permission checks for laravel 4.x",
+	 "keywords": ["laravel", "php"],
+	 "license": "MIT",
+    "authors": [
+        {
+            "name": "Sven Speckmaier",
+            "email": "sps@ipunkt.biz"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Ipunkt\\Permission": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
