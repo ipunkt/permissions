@@ -7,10 +7,16 @@
  */
 
 namespace Ipunkt\Permissions\PermissionChecker;
+use Ipunkt\Permissions\CanInterface;
 
 
-use Illuminate\Auth\UserInterface;
-
+/**
+ * Class DummyPermissionChecker
+ * @package Ipunkt\Permissions\PermissionChecker
+ * 
+ * This is a dummy which provides a default for the PermissionCheckerInterface in the IoC container.
+ * Create your own PermissionChecker to replace it or use a more useful default from Packages like ipunkt/roles
+ */
 class DummyPermissionChecker extends PermissionChecker {
     /**
      * Check if the given User has permission to do action on this objects assigned model
@@ -20,7 +26,7 @@ class DummyPermissionChecker extends PermissionChecker {
      * @param string $action
      * @return boolean
      */
-    public function checkPermission(UserInterface $user, $action)
+    public function checkPermission(Caninterface $user, $action)
     {
         return true;
     }

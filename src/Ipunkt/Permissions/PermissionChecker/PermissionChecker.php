@@ -11,9 +11,16 @@ namespace Ipunkt\Permissions\PermissionChecker;
 
 use Ipunkt\Permissions\HasPermissionInterface;
 
+/**
+ * Class PermissionChecker
+ * @package Ipunkt\Permissions\PermissionChecker
+ * 
+ * This is the groundwork for all PermissionCheckers.
+ * It takes the object for which we check permission as constructor argument and provides getEntity() to retrieve it
+ */
 abstract class PermissionChecker implements PermissionCheckerInterface {
     /**
-     * @var mixed
+     * @var HasPermissionInterface
      */
     private $associated_object;
 

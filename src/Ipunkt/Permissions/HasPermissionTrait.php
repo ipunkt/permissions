@@ -12,6 +12,20 @@ use App;
 use Ipunkt\Permissions\Exceptions\InvalidPermissionCheckerPathException;
 use Ipunkt\Permissions\PermissionChecker\PermissionCheckerInterface;
 
+/**
+ * Class HasPermissionTrait
+ * @package Ipunkt\Permissions
+ * 
+ * This Trait is the default implementation of the HasPermissionInterface.
+ * 
+ * This works very similar to laracasts/presenter
+ * Set $checker_instance to the class implementing PermissionCheckerInterface which you want to use to check this objects
+ * Permissions.
+ * If no $checker_instance is provided it will load the default implementation from the Laravel IoC.
+ * 
+ * The default implementation provided by this package will allow all actions by anything. Other packages provide more
+ * useful defaults, e.g. ipunkt/roles
+ */
 trait HasPermissionTrait {
     protected $checker_instance = null;
 
@@ -26,7 +40,7 @@ trait HasPermissionTrait {
             else
                 throw new InvalidPermissionCheckerPathException($this->permission_checker_path);
         } else {
-            $this->checker_instance = App::make('Ipunkt\Permissions\PermissionChecker\PermissionCheckerInterface', ['associated_object' => $this]);
+            $this->checker_instance = \App::make('Ipunkt\Permissions\PermissionChecker\PermissionCheckerInterface', ['associated_object' => $this]);
         }
     }
 
