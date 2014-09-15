@@ -20,5 +20,5 @@ interface CanInterface {
      * @param HasPermissionInterface $ressource
      * @return boolean
      */
-    public function can($action, $object);
+    public function can($action, HasPermissionInterface $object);
 }

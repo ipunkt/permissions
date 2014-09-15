@@ -1,8 +1,10 @@
 {
     "name": "ipunkt/permissions",
-	 "description": "1 line permission checks for laravel 4.x",
-	 "keywords": ["laravel", "php"],
-	 "license": "MIT",
+    "description": "1 line permission checks for laravel 4.x",
+    "keywords": ["laravel", "php"],
+    "homepage": "https://github.com/ipunkt/permissions",
+    "license": "MIT",
+
     "authors": [
         {
             "name": "Sven Speckmaier",
