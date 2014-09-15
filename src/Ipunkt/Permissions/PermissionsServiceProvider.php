@@ -22,7 +22,7 @@ class PermissionsServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register() {
-        //App::bind('Ipunkt\Permissions\PermissionChecker\PermissionCheckerInterface', 'Ipunkt\Permissions\PermissionChecker\DummyPermissionChecker');
+        App::bind('Ipunkt\Permissions\PermissionChecker\PermissionCheckerInterface', 'Ipunkt\Permissions\PermissionChecker\DummyPermissionChecker');
 	}
 
     /**
