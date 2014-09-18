@@ -12,12 +12,14 @@
  * Class CanTrait
  * @package Ipunkt\Permissions
  *
- * This is the default implementation of the can CanInterface.
- * It asks the $resource if we are allowed to do $action on it.
+ * Provides the `can` function to check permissions for an object
  */
 trait CanTrait {
 
     /**
+     * Checks if this model has permission to do $action on $object.
+     * Returns true if it has, or false if it does not.
+     * 
      * @param HasPermissionInterface $object
      * @param string $action
      * @return boolean

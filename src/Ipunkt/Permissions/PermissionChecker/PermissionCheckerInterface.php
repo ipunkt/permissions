@@ -10,14 +10,14 @@ namespace Ipunkt\Permissions\PermissionChecker;
 
 
 use Ipunkt\Permissions\CanInterface;
-use Ipunkt\Permissions\HasPermissionInterface;
 
 /**
  * Interface PermissionCheckerInterface
  * @package Ipunkt\Permissions\PermissionChecker
  * 
- * A class implementing this interface is used to do the actual permission checking on a
- * $user->can('do something', $onSomething) call.
+ * A PermissionChecker checks if a given user has permission on a model assigned to the checker.
+ * 
+ * @see PermissionChecker
  */
 interface PermissionCheckerInterface {
     /**

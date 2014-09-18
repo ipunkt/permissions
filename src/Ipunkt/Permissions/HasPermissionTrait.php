@@ -16,40 +16,60 @@ use Ipunkt\Permissions\PermissionChecker\PermissionCheckerInterface;
  * Class HasPermissionTrait
  * @package Ipunkt\Permissions
  * 
- * This Trait is the default implementation of the HasPermissionInterface.
+ * This trait handles the permission checking for an object implementing HasPermissionInterface.
  * 
- * This works very similar to laracasts/presenter
- * Set $checker_instance to the class implementing PermissionCheckerInterface which you want to use to check this objects
- * Permissions.
- * If no $checker_instance is provided it will load the default implementation from the Laravel IoC.
- * 
- * The default implementation provided by this package will allow all actions by anything. Other packages provide more
- * useful defaults, e.g. ipunkt/roles
+ * If the object provides a valid classpath in $permission_checker_path then the this class will be used as PermissionChecker
+ * If the object provides an invalid classpath, an InvalidPermissionCheckerPathException is thrown to prevent confusion
+ *  with mispellings in the classpath.
+ * If no $permission_checker_path is provided it will use the default implementation of 'Ipunkt\Permissions\PermissionChecker\PermissionCheckerInterface'
+ * from the Laravel IoC.
  */
 trait HasPermissionTrait {
     protected $checker_instance = null;
 
+    /**
+     * Check if a PermissionChecker instance is already present in the object
+     * Returns ture if one is present, false otherwise
+     * 
+     * @return bool
+     */
     protected function hasChecker() {
         return ($this->checker_instance !== null);
     }
 
+    /**
+     * Creates a PermissionChecker instance and saves it in $this->checker_instance
+     * 
+     * If the object provides a valid classpath in $permission_checker_path then the this class will be used as PermissionChecker
+     * If the object provides an invalid classpath, an InvalidPermissionCheckerPathException is thrown to prevent confusion
+     *  with mispellings in the classpath.
+     * If no $permission_checker_path is provided it will use the default implementation of 'Ipunkt\Permissions\PermissionChecker\PermissionCheckerInterface'
+     * from the Laravel IoC.
+     * 
+     * @throws InvalidPermissionCheckerPathException
+     */
     protected function makeChecker() {
+        // User intends to use their own PermissionChecker object
         if(isset($this->permission_checker_path)) {
+            // Valid Classpath, use PermissionChecker specified by user
             if(class_exists($this->permission_checker_path))
                 $this->checker_instance = new $this->permission_checker_path($this);
+            // Invalid Classpath, alert User about possible misspelling in the classpath
             else
                 throw new InvalidPermissionCheckerPathException($this->permission_checker_path);
+        // No classpath specified, use default implementation
         } else {
             $this->checker_instance = \App::make('Ipunkt\Permissions\PermissionChecker\PermissionCheckerInterface', ['associated_object' => $this]);
         }
     }
 
     /**
-     * Returns an instance of the PermissionCheckerInterface
+     * Returns the PermissionChecker which performs permission checking for this object
      *
      * @return PermissionCheckerInterface
      */
     public function permissionChecker() {
+        // Create a new checker instance if we don't have one already present
         if(!$this->hasChecker()) {
             $this->makeChecker();
         }

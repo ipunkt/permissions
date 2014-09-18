@@ -70,3 +70,42 @@ class Model extends Eloquent implements HasPermissioninterface {
     $checker_instance = 'Example\ModelPermissionChecker';
 }
 ```
+
+### Why the CanTrait
+
+The actual work of this package is done in the PermissionChecker, and finding the right PermissionChecker is done in the
+HasPermissionTrait. So why go the detour of `$user->can('something', $onSomething)` instead of directly using
+`$onSomething->checkPermission($user, 'something');`?  
+
+- First is readability. $user->can('doSomething', $onSomething) reads very natural and improves how easy it is to 
+    understand the code.
+- Second is extendability.  
+    Lets say you're just starting out on your project. You already chose your permission checking package, but you don't
+    want to bother with giving your testuser permissions to every single resource, so you just define that the user with
+    id 0 is the super user.
+    With `$onSomething->checkPermission($user, 'doSomething')` you'd have to change every single permission check to
+    `if( $user->getId() == 0 || $onSomething->checkPermission($user, 'doSomething') )` or go into every single
+    PermissionChecker you made and do it here.  
+    With the CanInterface and Trait you can just do
+
+    ```php
+    class User implements CanInterface {
+        use CanTrait {
+            CanTrait::can as _can;
+        };
+        
+        public function can($action, HasPermissionInterface $object) {
+            $permission = false;
+            
+            if($this->getKey() == 0)
+                $permission = true;
+            else
+                $permission = _can($action, $object);
+            
+            return $permission;
+        }
+    }
+    ```
+    
+    and maintain the code in a single location.
+    

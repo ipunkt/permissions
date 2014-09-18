@@ -14,8 +14,7 @@ use Ipunkt\Permissions\CanInterface;
  * Class DummyPermissionChecker
  * @package Ipunkt\Permissions\PermissionChecker
  * 
- * This is a dummy which provides a default for the PermissionCheckerInterface in the IoC container.
- * Create your own PermissionChecker to replace it or use a more useful default from Packages like ipunkt/roles
+ * This permission checker allows everyone to do everything.
  */
 class DummyPermissionChecker extends PermissionChecker {
     /**
