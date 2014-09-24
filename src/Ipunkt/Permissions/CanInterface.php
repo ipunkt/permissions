@@ -15,7 +15,7 @@
  */
 interface CanInterface {
     /**
-     * get the identifier for this user
+     * get the identifier for this object
      * 
      * @return mixed
      */

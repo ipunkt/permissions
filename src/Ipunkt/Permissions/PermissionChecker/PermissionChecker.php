@@ -23,7 +23,7 @@ abstract class PermissionChecker implements PermissionCheckerInterface {
     /**
      * @var HasPermissionInterface
      */
-    private $associated_object;
+    private $entity;
 
     /**
      * Provides access to the object this PermissionChecker is ment to check permissions for
@@ -31,15 +31,15 @@ abstract class PermissionChecker implements PermissionCheckerInterface {
      * @return HasPermissionInterface|mixed
      */
     protected function getEntity() {
-        return $this->associated_object;
+        return $this->entity;
     }
 
     /**
      * Construct a PermissionChecker which will check permissions for the $associated_object
      * 
-     * @param HasPermissionInterface $associated_object
+     * @param HasPermissionInterface $entity
      */
-    public function __construct(HasPermissionInterface $associated_object) {
-        $this->associated_object = $associated_object;
+    public function __construct(HasPermissionInterface $entity) {
+        $this->entity = $entity;
     }
 }

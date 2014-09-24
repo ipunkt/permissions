@@ -25,7 +25,10 @@ use Ipunkt\Permissions\PermissionChecker\PermissionCheckerInterface;
  * from the Laravel IoC.
  */
 trait HasPermissionTrait {
-    protected $checker_instance = null;
+	/**
+	 * @var PermissionCheckerInterface
+	 */
+	protected $checker = null;
 
     /**
      * Check if a PermissionChecker instance is already present in the object
@@ -34,11 +37,40 @@ trait HasPermissionTrait {
      * @return bool
      */
     protected function hasChecker() {
-        return ($this->checker_instance !== null);
+        return ($this->checker !== null);
     }
 
+	/**
+	 * @return bool
+	 */
+	protected function usesCustomChecker() {
+		return isset($this->permission_checker_path);
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function customCheckerPathIsValid() {
+		return class_exists($this->permission_checker_path);
+	}
+
+	/**
+	 * @return mixed
+	 */
+	protected function makeCustomChecker() {
+		return new $this->permission_checker_path($this);
+	}
+
+	/**
+	 * @return mixed
+	 */
+	protected function makeDefaultChecker() {
+		return \App::make('Ipunkt\Permissions\PermissionChecker\PermissionCheckerInterface', ['associated_object' => $this]);
+	}
+	
+
     /**
-     * Creates a PermissionChecker instance and saves it in $this->checker_instance
+     * Creates a PermissionChecker instance and saves it in $this->checker
      * 
      * If the object provides a valid classpath in $permission_checker_path then the this class will be used as PermissionChecker
      * If the object provides an invalid classpath, an InvalidPermissionCheckerPathException is thrown to prevent confusion
@@ -49,17 +81,13 @@ trait HasPermissionTrait {
      * @throws InvalidPermissionCheckerPathException
      */
     protected function makeChecker() {
-        // User intends to use their own PermissionChecker object
-        if(isset($this->permission_checker_path)) {
-            // Valid Classpath, use PermissionChecker specified by user
-            if(class_exists($this->permission_checker_path))
-                $this->checker_instance = new $this->permission_checker_path($this);
-            // Invalid Classpath, alert User about possible misspelling in the classpath
+        if( $this->usesCustomChecker() ) {
+            if( $this->customCheckerPathIsValid() )
+                $this->checker = $this->makeCustomChecker();
             else
                 throw new InvalidPermissionCheckerPathException($this->permission_checker_path);
-        // No classpath specified, use default implementation
         } else {
-            $this->checker_instance = \App::make('Ipunkt\Permissions\PermissionChecker\PermissionCheckerInterface', ['associated_object' => $this]);
+            $this->checker = $this->makeDefaultChecker();
         }
     }
 
@@ -73,6 +101,6 @@ trait HasPermissionTrait {
         if(!$this->hasChecker()) {
             $this->makeChecker();
         }
-        return $this->checker_instance;
+        return $this->checker;
     }
 } 

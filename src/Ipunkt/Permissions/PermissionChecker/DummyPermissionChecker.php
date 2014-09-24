@@ -21,11 +21,11 @@ class DummyPermissionChecker extends PermissionChecker {
      * Check if the given User has permission to do action on this objects assigned model
      * Dummy implementation: Returns false to everything.
      *
-     * @param UserInterface $user
+     * @param CanInterface $object
      * @param string $action
      * @return boolean
      */
-    public function checkPermission(Caninterface $user, $action)
+    public function checkPermission(CanInterface $object, $action)
     {
         return true;
     }

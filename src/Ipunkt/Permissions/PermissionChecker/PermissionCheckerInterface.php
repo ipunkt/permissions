@@ -15,7 +15,7 @@ use Ipunkt\Permissions\CanInterface;
  * Interface PermissionCheckerInterface
  * @package Ipunkt\Permissions\PermissionChecker
  * 
- * A PermissionChecker checks if a given user has permission on a model assigned to the checker.
+ * A PermissionChecker checks if a given object has permission on a model assigned to the checker.
  * 
  * @see PermissionChecker
  */
@@ -23,9 +23,9 @@ interface PermissionCheckerInterface {
     /**
      * Check if the given User has permission to do action on this objects assigned model
      *
-     * @param UserInterface $user
+     * @param UserInterface $object
      * @param string $action
      * @return boolean
      */
-    function checkPermission(CanInterface $user, $action);
+    function checkPermission(CanInterface $object, $action);
 }
