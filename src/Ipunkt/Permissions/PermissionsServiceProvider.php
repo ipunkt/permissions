@@ -28,9 +28,7 @@ class PermissionsServiceProvider extends ServiceProvider {
     /**
      *
      */
-    public function boot()
-    {
-        $this->package('ipunkt/permissions');
+    public function boot() {
     }
 
 	/**
