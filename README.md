@@ -51,16 +51,13 @@ namespace Example;
 
 class ModelPermissionChecker extends PermissionChecker {
     public function checkPermission(CanInterface $user, $action) {
-        $permission = false;
-        
+
         // Give permission to do anything if the $user is the owner of this model
         if( $user->getId() == $this->getEntity()->owner->getKey() )
-            $permission = true;
+            return true;
+
         // If the $user is not the owner, fall back to the usual permission management
-        else
-            parent::checkPermission($user, $action);
-    
-        return $permission;
+        return parent::checkPermission($user, $action);
     }
 }
 
